@@ -153,18 +153,19 @@ the_mediaAPDvoip_2 = zeros(1,4);
 for i= 1:length(n)
     for it= 1:N
         [PLdata(it), APDdata(it), MPDdata(it), TT(it), PLvoip(it), APDvoip(it), MPDvoip(it)] = Simulator4(lambda,C,f,P,n(i));
-        [the_mediaAPDvoip_2, the_mediaAPDdata_2] =  MG1_Calc(lambda, C, n);
+        [the_mediaAPDvoip_2, the_mediaAPDdata_2] =  TheoAvgDelayMG1_priorities(lambda, C, n(i));
     end
     sim_mediaAPDdata(i) = mean(APDdata);
     sim_mediaAPDvoip(i) = mean(APDvoip);
-    the_mediaAPDdata(i) = mean(the_APD_2);
-    the_mediaAPDvoip(i) = mean(the_APD_2);
+    the_mediaAPDdata(i) = mean(the_mediaAPDdata_2);
+    the_mediaAPDvoip(i) = mean(the_mediaAPDvoip_2);
 end
 figure(3);
 h = bar(n,[sim_mediaAPDdata; the_mediaAPDdata]);
 hold on
 grid on
 title('Average Data Packet Delay');
+legend('Simulation','Theoretical', 'location', 'northwest');
 xlabel('n (sec)');
 ylabel('Average data packet delay (ms)');
 hold off
@@ -173,6 +174,7 @@ h = bar(n,[sim_mediaAPDvoip; the_mediaAPDvoip]);
 hold on
 grid on
 title('Average VoIP Packet Delay');
+legend('Simulation','Theoretical', 'location', 'northwest');
 xlabel('n (sec)');
 ylabel('Average voIP packet delay (ms)');
 hold off
@@ -453,106 +455,44 @@ ylabel('Average voIP packet delay (ms)');
 hold off
 
 
-
-
 %% LAB 1 %% AUXILIAR FUNCTIONS
 
-function [W1, W2] = MG1_Calc(lambda, C, n)
-        
-    % variable initialization
-    lambda2 = lambda;
-    bpp = 8;  
-    nr_bytes_data = 65:1517;
-    % medium packet size VoIP
-    mps = (110+130)/2;
-    % average time between arrivals 
-    %avg_time = (16+22)/2; % in miliseconds
-
-    % lambda --> arrival rate
-    lambda1 = (1/(20*10^-3)) *  n; % in seconds
-    
-    % ESs data
-    sum = 0;
-    sum2 = 0;
-    for i = 1:size(nr_bytes_data,2)
-        sum = sum + (nr_bytes_data(i)*bpp)*(0.62/(1518-65));
-        sum2 = sum2 + ((nr_bytes_data(i)*bpp)/(C*10^6))^2*(0.62/(1518-65));
-    end
-    
-    % miu --> packets per second --> connection capacity / medium packet size (in
-    % bits)
-    u1 = (C*10^6) / (mps*bpp);
-    u2 = (C * 10^6)/(64*bpp*0.16 + 0.22*1518*bpp + sum);
-    
-    p_64 = 0.16;
-    p_1518 = 0.22;
-   
-    % ES = tempo * prob
-    ES_data = (64*bpp/(C*10^6))*p_64 + sum/(C*10^6) + (1518*bpp/(C*10^6))*p_1518;   
-    % ES2 = tempo^2 * prob
-    ES2_data = ((64*bpp/(C*10^6))^2 * p_64) + sum2 +  ((1518*bpp/(C*10^6)))^2 * 0.22;  
-    
-    % ES voip has a uniform distribution between 110 and 130
-    % ES2 --> service time
-    %ES_voip = 1/u2;
-    bytes_voip = 110:130;
-    sum3 = 0;
-    sum4 = 0;
-    for i = 1:size(bytes_voip, 2)
-        sum3 = sum3 + (((bytes_voip(i))*bpp/(C*10^6)))*(1/21);
-        sum4 = sum4 + (((bytes_voip(i))*bpp/(C*10^6))^2)*(1/21);
-    end
-   
-    ES_voip = sum3;
-    ES2_voip = sum4;
-    
-    p1 = (lambda1/u1);
-    p2 = (lambda2/u2);
-    
-    WQ1 = ((lambda1*ES2_voip) + (lambda2*ES2_data)) / (2*(1-p1));
-    WQ2 = ((lambda1*ES2_voip) + (lambda2*ES2_data)) / (2*(1-p1)*(1-p1-p2));
-
-    % atraso do sistema igual ao atraso da fila de espera mais o tempo
-    % que os pacotes demoram a serem transmitidos
-    W1 = (WQ1 + ES_voip) * 1000;
-    W2 = (WQ2 + ES_data) * 1000;
-   
+function [W1, W2] = TheoAvgDelayMG1_priorities(lambda, C, n)
+    meanPacketVoipSize = (110+130)/2;
+    bytesVoip = 110:130;
+    lambdaVoip = (1/(20*10^3))*n;
+    lambdaData = lambda;
+    [esData, es2Data] =  ES_data(C);
+    [esVoip, es2Voip] = ES_voip(C,bytesVoip);
+    uVoip = (C*10^6) / (meanPacketVoipSize*8);
+    uData = (C*10^6) / (esData);
+    p1 = lambdaVoip / uVoip;
+    p2 = lambdaData / uData;
+    WQ1 = ((lambdaVoip*es2Voip) + (lambdaData.*es2Data)) / (2*(1-p1));
+    WQ2 = ((lambdaVoip*es2Voip) + (lambdaData.*es2Data)) / (2*(1-p1)*(1-p1-p2));
+    W1 = (WQ1 + esVoip) * 1000;
+    W2 = (WQ2 + esData) * 1000;
 end
 
-% function avgMG1 = TheoAvgDelayMG1(lambda,C,size)
-%     es = ES(C);
-%     es2 = ES2(C);
-%     avgMG1 = ((lambda * es2 ) / (2 * (1 - lambda * es))) + es;
-% end
-% 
-% function es2 = ES2(C)
-%     k = (0.41/((109 - 65 + 1)+(1517 - 111 + 1)));
-%     es2 = 0.19 * ((64*8)/(C*10^6))^2 + 0.23 * ((110*8)/(C*10^6))^2 + 0.17 * ((1518*8)/(C*10^6))^2;
-%     for n = 65:109
-%         es2 = es2 + k * ((n * 8)/(C*10^6))^2;
-%     end
-%     for n = 111:1517
-%          es2 = es2 + k * ((n * 8)/(C*10^6))^2;
-%     end
-% end
-% 
-% function es = ES(C)
-%     k = (0.41/((109 - 65 + 1)+(1517 - 111 + 1)));
-%     es = 0.19 * ((64*8)/(C*10^6)) + 0.23 * ((110*8)/(C*10^6)) + 0.17 * ((1518*8)/(C*10^6));
-%     for n = 65:109
-%         es = es + k * ((n*8)/(C*10^6));
-%     end
-%     for n = 111:1517
-%          es = es + k * ((n*8)/(C*10^6));
-%     end
-% end
-
-function mean = MeanPacketSize()
-    mean = 0.19 * (64*8) + 0.23 * (110*8) + 0.17 * (1518*8);
+function [es, es2] = ES_data(C)
+    k = (0.41/((109 - 65 + 1)+(1517 - 111 + 1)));
+    es = 0.19 * ((64*8)/(C*10^6)) + 0.23 * ((110*8)/(C*10^6)) + 0.17 * ((1518*8)/(C*10^6));
+    es2 = 0.19 * ((64*8)/(C*10^6))^2 + 0.23 * ((110*8)/(C*10^6))^2 + 0.17 * ((1518*8)/(C*10^6))^2;
     for n = 65:109
-        mean = mean + ((0.41/((109 - 65 + 1)+(1517 - 111 + 1))) * (n*8));
+        es = es + k * ((n*8)/(C*10^6));
+        es2 = es2 + k * ((n * 8)/(C*10^6))^2;
     end
-    for j = 111:1517
-        mean = mean + ((0.41/((109 - 65 + 1)+(1517 - 111 + 1))) * (j*8));
+    for n = 111:1517
+         es = es + k * ((n*8)/(C*10^6));
+         es2 = es2 + k * ((n * 8)/(C*10^6))^2;
+    end
+end
+
+function [es, es2] = ES_voip(C, v)
+    es = 0;
+    es2 = 0;
+    for i = 1:size(v, 2)
+        es = es + (((v(i)*8)/(C*10^6)))*(1/21);
+        es2 = es2 + (( (v(i)*8)/(C*10^6))^2)*(1/21);
     end
 end

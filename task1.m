@@ -158,12 +158,6 @@ hold off
 % for all cases of 1.c. Compare the theoretical values with the simulation 
 % results of experiments 1.c and take conclusions.
 
-% lambda = 1800;
-% size = MeanPacketSize();
-% atrasoMG1_10 = TheoAvgDelayMG1(lambda,10,size)*1000;
-% fprintf('------ lamb=1800 ; C=10 ------\n');
-% fprintf("Average packet delay (ms) = %.4f\n", atrasoMG1_10);
-
 lambda = 1800;
 C = [10, 20, 30, 40];
 f = 1000000;
@@ -184,7 +178,7 @@ the_APD_2 = zeros(1,4);
 for i = 1:length(C)
     for it= 1:N
         [PL(it), APD(it), MPD(it), TT(it)] = Simulator1(lambda,C(i),f,P);
-        the_APD_2 = TheoAvgDelayMG1(lambda,C(i),size)*1000;
+        the_APD_2 = TheoAvgDelayMG1(lambda,C(i));
     end
     sim_APD(i) = mean(APD);
     the_APD(i) = mean(the_APD_2);
@@ -213,40 +207,59 @@ hold off
 % 1.c. Take conclusions concerning the impact of the link capacity in the 
 % obtained average packet delay of packets with different sizes.
 
+lambda = 1800; 
+C = [10, 20, 30, 40]; 
+f = 1000000;    
+P = 10000;      
+N = 50;         
+alfa = 0.1;     
 
+PL = zeros(1,4);    
+APD = zeros(1,4);   
+MPD = zeros(1,4);   
+TT = zeros(1,4);    
+mediaAPD = zeros(1,4);
+termAPD = zeros(1,4);
+
+for i= 1:length(C)
+    for it= 1:N
+        [PL(it), APD(it), MPD(it), TT(it)] = Simulator1New(lambda,C(i),f,P);
+    end
+    mediaAPD(i) = mean(APD);
+    termAPD(i) = norminv(1-alfa/2)*sqrt(var(APD)/N);
+end
+
+figure(5);
+h = bar(C,mediaAPD);
+hold on
+er = errorbar(C,mediaAPD,termAPD);
+er.Color = [0 0 0];
+er.LineStyle = 'none';
+grid on
+title('Average Packet Delay');
+xlabel('Link bandwidth (Mbps)');
+ylabel('Average packet delay (ms)');
+hold off
 
 
 %% LAB 1 %% AUXILIAR FUNCTIONS
 
-function miu = Miu(C,size)
-     miu=(C*10^6)/size;
- end
-
-function avgMG1 = TheoAvgDelayMG1(lambda,C,size)
-    es = ES(C);
-    es2 = ES2(C);
-    avgMG1 = ((lambda * es2 ) / (2 * (1 - lambda * es))) + es;
+function W = TheoAvgDelayMG1(lambda,C)
+    [es, es2] = ES_data(C);
+    W = (((lambda*es2 ) / (2 * (1 - lambda*es))) + es) * 1000;
 end
 
-function es2 = ES2(C)
+function [es, es2] = ES_data(C)
     k = (0.41/((109 - 65 + 1)+(1517 - 111 + 1)));
-    es2 = 0.19 * ((64*8)/(C*10^6))^2 + 0.23 * ((110*8)/(C*10^6))^2 + 0.17 * ((1518*8)/(C*10^6))^2;
+    es = 0.19*((64*8)/(C*10^6)) + 0.23*((110*8)/(C*10^6)) + 0.17*((1518*8)/(C*10^6));
+    es2 = 0.19*((64*8)/(C*10^6))^2 + 0.23*((110*8)/(C*10^6))^2 + 0.17*((1518*8)/(C*10^6))^2;
     for n = 65:109
+        es = es + k * ((n*8)/(C*10^6));
         es2 = es2 + k * ((n * 8)/(C*10^6))^2;
     end
     for n = 111:1517
-         es2 = es2 + k * ((n * 8)/(C*10^6))^2;
-    end
-end
-
-function es = ES(C)
-    k = (0.41/((109 - 65 + 1)+(1517 - 111 + 1)));
-    es = 0.19 * ((64*8)/(C*10^6)) + 0.23 * ((110*8)/(C*10^6)) + 0.17 * ((1518*8)/(C*10^6));
-    for n = 65:109
-        es = es + k * ((n*8)/(C*10^6));
-    end
-    for n = 111:1517
          es = es + k * ((n*8)/(C*10^6));
+         es2 = es2 + k * ((n * 8)/(C*10^6))^2;
     end
 end
 
