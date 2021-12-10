@@ -51,7 +51,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average Data Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average data packet delay (ms)');
 hold off
 figure(2);
@@ -62,7 +62,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average VoIP Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average voIP packet delay (ms)');
 hold off
 
@@ -108,7 +108,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average Data Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average data packet delay (ms)');
 hold off
 figure(4);
@@ -119,7 +119,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average VoIP Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average voIP packet delay (ms)');
 hold off
 
@@ -166,7 +166,7 @@ hold on
 grid on
 title('Average Data Packet Delay');
 legend('Simulation','Theoretical', 'location', 'northwest');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average data packet delay (ms)');
 hold off
 figure(4);
@@ -175,7 +175,7 @@ hold on
 grid on
 title('Average VoIP Packet Delay');
 legend('Simulation','Theoretical', 'location', 'northwest');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average voIP packet delay (ms)');
 hold off
 
@@ -237,7 +237,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Data Packet Loss');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Data packet loss (%)');
 hold off
 figure(6);
@@ -248,7 +248,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('VoIP Packet Loss');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('VoIP packet loss (%)');
 hold off
 figure(7);
@@ -259,7 +259,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average Data Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average data packet delay (ms)');
 hold off
 figure(8);
@@ -270,7 +270,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average VoIP Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average voIP packet delay (ms)');
 hold off
 
@@ -325,7 +325,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Data Packet Loss');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Data packet loss (%)');
 hold off
 figure(10);
@@ -336,7 +336,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('VoIP Packet Loss');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('VoIP packet loss (%)');
 hold off
 figure(11);
@@ -347,7 +347,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average Data Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average data packet delay (ms)');
 hold off
 figure(12);
@@ -358,7 +358,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average VoIP Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average voIP packet delay (ms)');
 hold off
 
@@ -417,7 +417,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Data Packet Loss');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Data packet loss (%)');
 hold off
 figure(14);
@@ -428,7 +428,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('VoIP Packet Loss');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('VoIP packet loss (%)');
 hold off
 figure(15);
@@ -439,7 +439,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average Data Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average data packet delay (ms)');
 hold off
 figure(16);
@@ -450,7 +450,7 @@ er.Color = [0 0 0];
 er.LineStyle = 'none';
 grid on
 title('Average VoIP Packet Delay');
-xlabel('n (sec)');
+xlabel('n (number of VoIP packets flows)');
 ylabel('Average voIP packet delay (ms)');
 hold off
 
