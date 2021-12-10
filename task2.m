@@ -43,6 +43,7 @@ for i= 1:length(n)
     mediaAPDvoip(i) = mean(APDvoip);
     termAPDvoip(i) = norminv(1-alfa/2)*sqrt(var(APDvoip)/N);
 end
+
 figure(1);
 h = bar(n,mediaAPDdata);
 hold on
@@ -54,6 +55,7 @@ title('Average Data Packet Delay');
 xlabel('n (number of VoIP packets flows)');
 ylabel('Average data packet delay (ms)');
 hold off
+
 figure(2);
 h = bar(n,mediaAPDvoip);
 hold on
