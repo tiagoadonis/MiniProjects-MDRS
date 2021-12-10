@@ -218,29 +218,41 @@ PL = zeros(1,4);
 APD = zeros(1,4);   
 MPD = zeros(1,4);   
 TT = zeros(1,4);    
-mediaAPD = zeros(1,4);
-termAPD = zeros(1,4);
+APD64 = zeros(1,4);
+APD110 = zeros(1,4);
+APD1518 = zeros(1,4);
+
+mediaAPD64 = zeros(1,4);
+mediaAPD110 = zeros(1,4);
+mediaAPD1518 = zeros(1,4);
+% 64, 110, 1518 bytes error bars (NOT SHOWN IN THE GRAPH)
+termAPD64 = zeros(1,4);
+termAPD110 = zeros(1,4);
+termAPD1518 = zeros(1,4);
 
 for i= 1:length(C)
     for it= 1:N
-        [PL(it), APD(it), MPD(it), TT(it)] = Simulator1New(lambda,C(i),f,P);
+        [PL(it), APD(it), MPD(it), TT(it), APD64(it), APD110(it), APD1518(it)] = Simulator1New(lambda,C(i),f,P);
     end
-    mediaAPD(i) = mean(APD);
-    termAPD(i) = norminv(1-alfa/2)*sqrt(var(APD)/N);
+    mediaAPD64(i) = mean(APD64);
+    mediaAPD110(i) = mean(APD110);
+    mediaAPD1518(i) = mean(APD1518); 
+    
+    % NOT SHOWN IN THE GRAPH
+    termAPD64(i) = norminv(1-alfa/2)*sqrt(var(APD64)/N);
+    termAPD110(i) = norminv(1-alfa/2)*sqrt(var(APD110)/N);
+    termAPD1518(i) = norminv(1-alfa/2)*sqrt(var(APD1518)/N);
 end
 
 figure(5);
-h = bar(C,mediaAPD);
+h = bar(C, [mediaAPD64; mediaAPD110; mediaAPD1518]);
 hold on
-er = errorbar(C,mediaAPD,termAPD);
-er.Color = [0 0 0];
-er.LineStyle = 'none';
 grid on
 title('Average Packet Delay');
+legend('64 Bytes','110 Bytes', '1518 Bytes', Location='northeast')
 xlabel('Link bandwidth (Mbps)');
 ylabel('Average packet delay (ms)');
 hold off
-
 
 %% LAB 1 %% AUXILIAR FUNCTIONS
 
