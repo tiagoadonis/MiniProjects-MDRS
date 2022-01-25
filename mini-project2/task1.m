@@ -39,12 +39,6 @@ T= [1  3  1.0 1.0
     5  9  1.6 1.9
     6 10  1.4 1.6];
 
-% ------------------------------- TASK 1.1 -------------------------------
-% With a k-shortest path algorithm (using the lengths of the links), 
-% compute the number of different routing paths provided by the network to
-% each traffic flow.
-fprintf('------------------------------- 1.a -------------------------------\n');
-
 nNodes= 10;
 nLinks= size(Links,1);
 nFlows= size(T,1);
@@ -63,10 +57,20 @@ for i=1:nLinks
 end
 L= round(L);  %Km
 
+%% ------------------------------- TASK 1.1 -------------------------------
+% With a k-shortest path algorithm (using the lengths of the links), 
+% compute the number of different routing paths provided by the network to
+% each traffic flow.
+fprintf('------------------------------- 1.a -------------------------------\n');
+
 % Compute up to n paths for each flow:
 n= inf;
 [sP nSP]= calculatePaths(L,T,n);    % quero todos os percursos, do mais curto para o mais longo
 
+fprintf('With a k-shortest path algorithm (using the lengths of the links):\n');
+for i = 1:nFlows
+    fprintf('   Flow %d has %d different routing paths provided by the network.\n', i, nSP(i));
+end
 
 %% ------------------------------- TASK 1.b -------------------------------
 % Run a random algorithm during 10 seconds in three cases: 
