@@ -57,7 +57,7 @@ for i=1:nLinks
 end
 L= round(L);  %Km
 
-%% ------------------------------- TASK 1.1 -------------------------------
+% ------------------------------- TASK 1.1 -------------------------------
 % With a k-shortest path algorithm (using the lengths of the links), 
 % compute the number of different routing paths provided by the network to
 % each traffic flow.
@@ -87,7 +87,7 @@ n = [inf,10,5];
 fprintf('RANDOM STRATEGY\n');
 for k = 1:length(n)
     % Compute up to n paths for each flow:
-    [sP nSP] = calculatePaths(L,T,n(k));                                     % nSP(i) = nº de percursos num fluxo
+    [sP nSP] = calculatePaths(L,T,n(k));                                    % nSP(i) = nº de percursos num fluxo
 
     % Compute the link loads using the first (shortest) path of each flow:
     sol = ones(1,nFlows);
@@ -97,17 +97,17 @@ for k = 1:length(n)
     % Optimization algorithm resorting to the RANDOM strategy
     time = 10;
     t = tic;
-    bestLoad = inf;                                                          % valor da melhor solucao 
+    bestLoad = inf;                                                        % valor da melhor solucao 
     sol = zeros(1,nFlows);   
-    allValues = [];                                                          % vetor onde se guarda os valores de todas as solucoes
-    while toc(t) < time                                                       % percorrer ate a condicao time ser atingida
-        for i = 1:nFlows                                                     % gerar multiplas solucoes random
+    allValues = [];                                                         % vetor onde se guarda os valores de todas as solucoes
+    while toc(t) < time                                                     % percorrer ate a condicao time ser atingida
+        for i = 1:nFlows                                                    % gerar multiplas solucoes random
             sol(i) = randi(nSP(i));  
         end
-        Loads = calculateLinkLoads(nNodes,Links,T,sP,sol);                   % calcular as cargas da solucao gerada
-        load = max(max(Loads(:,3:4)));                                       % verificar o maior valor das cargas entre a 3 e 4 colunas
-        allValues = [allValues load];                                        % guardar todos os valores de carga maxima de todas as solucoes
-        if load < bestLoad                                                    % ficar com a melhor solucao de todas 
+        Loads = calculateLinkLoads(nNodes,Links,T,sP,sol);                  % calcular as cargas da solucao gerada
+        load = max(max(Loads(:,3:4)));                                      % verificar o maior valor das cargas entre a 3 e 4 colunas
+        allValues = [allValues load];                                       % guardar todos os valores de carga maxima de todas as solucoes
+        if load < bestLoad                                                 % ficar com a melhor solucao de todas 
             bestSol = sol;
             bestLoad = load;
         end
@@ -122,13 +122,13 @@ for k = 1:length(n)
     else
         fprintf('   Using 5 shortest routing paths:\n');
     end
-    fprintf('      Best load = %.2f Gbps\n', bestLoad);
+    fprintf('      Worst load = %.2f Gbps\n', bestLoad);
     fprintf('      No. of solutions = %d\n', length(allValues));
     fprintf('      Av. quality of solutions = %.2f Gbps\n\n', mean(allValues));
 end
 title({'Random algorithm'}, {'to minimize the worst link load'});
 xlabel('No. of solutions');
-ylabel('Quality of solutions (Gbps)');  
+ylabel('Best Loads (Gbps)');  
 legend('All possible routing paths','10 shortest routing paths','5 shortest routing paths','Location','northwest');
 
 
@@ -199,7 +199,7 @@ for k = 1:length(n)
 end
 title({'Greedy Randomized algorithm'}, {'to minimize the worst link load'});
 xlabel('No. of solutions');
-ylabel('Quality of solutions (Gbps)');  
+ylabel('Best Loads (Gbps)');  
 legend('All possible routing paths','10 shortest routing paths','5 shortest routing paths','Location','southeast');
 
 %% ------------------------------- TASK 1.d -------------------------------
@@ -300,6 +300,6 @@ for k = 1:length(n)
 end
 title({'Multi start Hill CLimbing algorithm'}, {'to minimize the worst link load'});
 xlabel('No. of solutions');
-ylabel('Quality of solutions (Gbps)');  
+ylabel('Best Loads (Gbps)');   
 legend('All possible routing paths','10 shortest routing paths','5 shortest routing paths','Location','southeast');
 

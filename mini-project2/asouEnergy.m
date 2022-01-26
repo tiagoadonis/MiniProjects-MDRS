@@ -215,7 +215,7 @@ fprintf('   Best energy = %.1f\n',bestEnergy);
 fprintf('   No. of solutions = %d\n',length(allValues));
 fprintf('   Av. quality of solutions = %.1f\n',mean(allValues));
 
-% a mesma solucao, muito menos 
+% a mesma solucao, muito menos  
 % variam entre o valor minimo e maximo praticamente igual
 % a qualidade e semelhante
 
