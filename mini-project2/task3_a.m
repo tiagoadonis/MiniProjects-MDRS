@@ -57,7 +57,7 @@ for i=1:nLinks
 end
 L= round(L);  %Km
 
-%% ------------------------------- TASK 3.a -------------------------------
+% ------------------------------- TASK 3.a -------------------------------
 % For each flow, compute one of its routing paths given by the most available path. 
 fprintf('\n------------------------------- 3.a -------------------------------\n');
 
@@ -71,7 +71,7 @@ logA= -log(A);
 count= 1;
 ava=ones(1,length(sP));
 for i=1:length(sP)
-    fprintf('Flow %d:\n',i);
+    fprintf('Flow %d: ',i);
     path=sP{i}{1};   % obter todos os paths do sP
     aux = 1;
     for j=1:(length(path)-1)
@@ -79,10 +79,9 @@ for i=1:length(sP)
         nextNode = path(j+1);
         ava(i)= ava(i)*A(initialNode,nextNode);
     end
-    
-    fprintf('    Availability of Path ');
+    fprintf('availability of Path ');
     fprintf('%d ', path);
-    fprintf(' = %.5f%%\n', ava(i))
+    fprintf('= %.5f%%\n', ava(i))
 end
 
 
