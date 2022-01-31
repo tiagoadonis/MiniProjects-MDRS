@@ -83,30 +83,3 @@ for i=1:length(sP)
     fprintf('%d ', path);
     fprintf('= %.5f%%\n', ava(i))
 end
-
-
-%% ------------------------------- TASK 3.b -------------------------------
-% For each flow, compute another routing path given by the most available 
-% path which is link disjoint with the previously computed routing path. 
-% Compute the availability provided by each pair of routing paths. Present 
-% all pairs of routing paths of each flow and their availability. Present 
-% also the average service availability (i.e., the average availability 
-% value among all flows of the service).
-fprintf('\n------------------------------- 3.b -------------------------------\n');
-
-
-%% ------------------------------- TASK 3.c -------------------------------
-% Recall that the capacity of all links is 10 Gbps in each direction. 
-% Compute how much bandwidth is required on each direction of each link to
-% support all flows with 1+1 protection using the previous computed pairs 
-% of link disjoint paths. Compute also the total bandwidth required on all 
-% links. Register which links do not have enough capacity.
-fprintf('------------------------------- 3.c -------------------------------\n');
-
-%% ------------------------------- TASK 3.d -------------------------------
-% Compute how much bandwidth is required on each link to support all flows 
-% with 1:1 protection using the previous computed pairs of link disjoint
-% paths. Compute also the total bandwidth required on all links. Register 
-% which links do not have enough capacity and the highest bandwidth value 
-% required among all links.
-fprintf('------------------------------- 3.d -------------------------------\n');
