@@ -107,7 +107,7 @@ while toc(t) < time
         bestLoad = load;
     end
 end
-fprintf('      Best load = %.2f Gbps\n', bestLoad);
+fprintf('      Worst load = %.2f Gbps\n', bestLoad);
 fprintf('      No. of solutions = %d\n', length(allValues));
 fprintf('      Av. quality of solutions = %.2f Gbps\n\n', mean(allValues));
 figure(2);
@@ -152,7 +152,7 @@ while toc(t) < time
         bestLoad = load;
     end
 end
-fprintf('      Best load = %.2f Gbps\n', bestLoad);
+fprintf('      Worst load = %.2f Gbps\n', bestLoad);
 fprintf('      No. of solutions = %d\n', length(allValues));
 fprintf('      Av. quality of solutions = %.2f Gbps\n\n', mean(allValues));
 figure(2);
@@ -194,7 +194,7 @@ while toc(t) < time
         bestLoad = load;
     end
 end
-fprintf('      Best load = %.2f Gbps\n', bestLoad);
+fprintf('      Worst load = %.2f Gbps\n', bestLoad);
 fprintf('      No. of solutions = %d\n', length(allValues));
 fprintf('      Av. quality of solutions = %.2f Gbps\n\n', mean(allValues));
 figure(2);
@@ -203,5 +203,5 @@ plot(sort(allValues));
 
 title({'Greedy Randomized algorithm'}, {'to minimize the worst link load'});
 xlabel('No. of solutions');
-ylabel('Best Load (Gbps)');  
+ylabel('Worst Load (Gbps)');  
 legend('All possible routing paths','10 shortest routing paths','5 shortest routing paths','Location','southeast');

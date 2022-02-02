@@ -84,12 +84,12 @@ while toc(t) < time
         bestLoad = load;
     end
 end
-fprintf('   Best load = %.2f Gbps\n', bestLoad);
+fprintf('   Worst load = %.2f Gbps\n', bestLoad);
 fprintf('   No. of solutions = %d\n', length(allValues));
 fprintf('   Av. quality of solutions = %.2f Gbps\n\n', mean(allValues));
-%figure(1);
-%hold on
-%plot(sort(allValues)); 
+figure(1);
+hold on
+plot(sort(allValues)); 
 
 
 % ------------------------------- TASK 1.c -------------------------------
@@ -129,7 +129,7 @@ while toc(t) < time
         bestLoad = load;
     end
 end
-fprintf('   Best load = %.2f Gbps\n', bestLoad);
+fprintf('   Worst load = %.2f Gbps\n', bestLoad);
 fprintf('   No. of solutions = %d\n', length(allValues));
 fprintf('   Av. quality of solutions = %.2f Gbps\n\n', mean(allValues));
 figure(1);
@@ -205,7 +205,7 @@ while toc(t) < time
         bestLoad = load;
     end
 end
-fprintf('   Best load = %.2f Gbps\n', bestLoad);
+fprintf('   Worst load = %.2f Gbps\n', bestLoad);
 fprintf('   No. of solutions = %d\n', length(allValues));
 fprintf('   Av. quality of solutions = %.2f Gbps\n\n', mean(allValues));
 figure(1);
@@ -213,8 +213,8 @@ hold on
 plot(sort(allValues));
 
 title({'Efficiency of the two heuristic algorithms'}, {'to minimize the worst link load (using all possible routing paths)'});
-%title({'Efficiency of the three heuristic algorithms'}, {'to minimize the worst link load (using all possible routing paths)'});
+title({'Efficiency of the three heuristic algorithms'}, {'to minimize the worst link load (using all possible routing paths)'});
 xlabel('No. of solutions');
-ylabel('Best Load (Gbps)');   
+ylabel('Worst Load (Gbps)');   
 legend('Greedy Randomized algorithm','Multi start Hill CLimbing algorithm','Location','southeast');
-% legend('Random algorithm','Greedy Randomized algorithm','Multi start Hill CLimbing algorithm','Location','southeast');
+legend('Random algorithm','Greedy Randomized algorithm','Multi start Hill CLimbing algorithm','Location','southeast');
